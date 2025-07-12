@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
+import '../services/image_classifier.dart';
 import '../widgets/image_gallery.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,12 +12,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? _selectedImage;
-  String? _classificationResult;
+  Map<String, dynamic>? _classificationResult;
+  final ImageClassifierService _imageClassifierService = ImageClassifierService();
 
   void _onImageSelected(String ImagePath) {
     setState(() {
       _selectedImage = ImagePath;
-      _classificationResult = ImagePath;
+      _classificationResult = _imageClassifierService.classifyImage(
+        _selectedImage!,
+      );
     });
   }
 
@@ -63,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Text(
               _classificationResult != null
-                  ? 'Classification Result: \n $_classificationResult'
+                  ? 'Classification Result: \n ${_classificationResult?["label"]} (${(_classificationResult?["confidence"] * 100).toStringAsFixed(2)}%)'
                   : 'No image selected',
               style: TextStyle(
                 fontSize: 16,
