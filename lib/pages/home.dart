@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
+// import '../core/onnx.dart';
 import '../services/image_classifier.dart';
 import '../widgets/image_gallery.dart';
 
@@ -13,14 +14,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? _selectedImage;
   Map<String, dynamic>? _classificationResult;
-  final ImageClassifierService _imageClassifierService = ImageClassifierService();
+  final _imageClassifierService = ImageClassifierService();
 
-  void _onImageSelected(String ImagePath) {
+  Future<void> _onImageSelected(String ImagePath) async {
     setState(() {
       _selectedImage = ImagePath;
-      _classificationResult = _imageClassifierService.classifyImage(
-        _selectedImage!,
-      );
+    });
+    final result = await _imageClassifierService.classifyImage(ImagePath);
+    setState(() {
+      _classificationResult = result;
     });
   }
 

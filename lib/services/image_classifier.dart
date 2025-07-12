@@ -1,5 +1,5 @@
 class ImageClassifierService {
-  Map<String, dynamic> classifyImage(String imagePath) {
+  Future<Map<String, dynamic>> classifyImage(String imagePath) async {
 
     if (imagePath.startsWith('assets/cat')) {
       return {
