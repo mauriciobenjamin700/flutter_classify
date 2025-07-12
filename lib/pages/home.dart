@@ -10,12 +10,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   String? _selectedImage;
+  String? _classificationResult;
 
   void _onImageSelected(String ImagePath) {
     setState(() {
       _selectedImage = ImagePath;
+      _classificationResult = ImagePath;
     });
   }
 
@@ -41,7 +42,9 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: _selectedImage != null ? Colors.blue.shade800 : Colors.grey.shade600,
+                color: _selectedImage != null
+                    ? Colors.blue.shade800
+                    : Colors.grey.shade600,
               ),
               textAlign: TextAlign.center,
             ),
@@ -56,8 +59,23 @@ class _HomePageState extends State<HomePage> {
               ],
               onImageTap: _onImageSelected,
             ),
-          )
-        ]
+          ),
+          Expanded(
+            child: Text(
+              _classificationResult != null
+                  ? 'Classification Result: \n $_classificationResult'
+                  : 'No image selected',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: _classificationResult != null
+                    ? Colors.green.shade800
+                    : Colors.grey.shade600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
       ),
     );
   }
