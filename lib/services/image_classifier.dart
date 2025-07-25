@@ -1,15 +1,25 @@
-class ImageClassifierService {
-  Future<Map<String, dynamic>> classifyImage(String imagePath) async {
+import '../core/tflite.dart';
+import '../core/constants.dart';
 
-    if (imagePath.startsWith('assets/cat')) {
-      return {
-        'label': 'Cat',
-        'confidence': 0.85,
-      };
-    }
+class ImageClassifierService {
+
+  final TFLiteHandler _tflite = TFLiteHandler(
+    modelPath: Constants.classifyModel,
+    labelsPath: Constants.classifyLabels,
+  );
+  TFLiteHandler get tflite => _tflite;
+
+  Future<Map<String, dynamic>> classifyImage(String imagePath) async {
+    
+    await tflite.loadModel();
+
+    final output = await tflite.classifyImageWithLabels(imagePath);
+
+    print('🔍 Resultado da classificação: ${output.toString()}');
+
     return {
-      'label': 'Dog',
-      'confidence': 0.75,
+      'label': output.label,
+      'confidence': output.confidence,
     };
   }
 }

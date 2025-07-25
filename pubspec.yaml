@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  onnxruntime: ^1.4.0
   image: ^4.1.7
+  tflite_flutter: ^0.11.0
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +26,5 @@ flutter:
 
   assets:
     - assets/
+    - assets/models/best_float16.tflite
+    - assets/models/labels.txt
