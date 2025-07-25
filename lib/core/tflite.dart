@@ -69,19 +69,22 @@ class TFLiteHandler {
       );
 
       final outputShape = _interpreter!.getOutputTensor(0).shape;
-      print('📤 Output shape do modelo: $outputShape'); // Debug
-      
-      // ✅ CORREÇÃO: Cria output no formato correto [1, 2]
       final output = List.generate(
-        outputShape[0], // Usa outputShape[0] = 1 (batch)
-        (index) => List<double>.filled(outputShape[1], 0.0), // outputShape[1] = 2 (classes)
+        outputShape[0],
+        (index) => List<double>.filled(outputShape[1], 0.0),
       );
 
       _interpreter!.run(inputTensor, output);
 
-      final probabilities = _applySoftmax(output[0]);
+      // ✅ Usa valores diretos (modelo já aplica softmax)
+      final probabilities = output[0];
 
-      print('🎯 Probabilidades: $probabilities');
+      // 🎨 Log formatado com 2 casas decimais
+      final formattedProbs = probabilities
+          .map((prob) => '${(prob * 100).toStringAsFixed(2)}%')
+          .toList();
+      
+      print('🎯 Probabilidades: $formattedProbs');      
       return probabilities;
       
     } catch (e) {
